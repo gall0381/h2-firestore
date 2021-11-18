@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  text-align: left;
 }
 
 .App-Header {
@@ -28,4 +28,9 @@
   display: flex;
   color: #fff;
   text-decoration: none;
+}
+
+.Instructions {
+  padding-left: 1rem;
+  padding-bottom: 0;
 }

@@ -106,36 +106,38 @@ function App() {
     <div className="App">
       <div className="App-Header">
         <div className="App-Title">
-          <h2>Firestore App</h2>
+          <h2>Firestore App &nbsp;✽</h2>
         </div>
-        <TextField sx={{ m: 0.5 }} size="small"
-          label="Species"
-          onChange={(event) => {
-            setSpecies(event.target.value);
-          }}
-        />
-        <TextField sx={{ m: 0.5 }} size="small"
-          label="Genus"
-          onChange={(event) => {
-            setGenus(event.target.value);
-          }}
-        />
-        <Button sx={{ m: 0.5 }} variant="outlined" onClick={createAnimal}>Add New</Button>
-
         <div className="App-Link">
-          <p>Built by Naomi Gallupe</p>
+          <p>Created by Naomi Gallupe</p>
         </div>
       </div>
       <Box sx={{ width: '100%', typography: 'body1' }}>
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <TabList onChange={handleChange} >
-              <Tab label="Animals" value="1" />
-              <Tab label="Flowers" value="2" />
-              <Tab label="Trees" value="3" />
+              <Tab label="Animals" value="animals" />
+              <Tab label="Flowers" value="flowers" />
+              <Tab label="Trees" value="trees" />
             </TabList>
           </Box>
-          <TabPanel value="1">
+          <div className="Instructions">
+            <p>You can add, update or delete from any category. Click on any tab to begin.</p>
+          </div>
+          <TabPanel value="animals">
+            <TextField sx={{ m: 0.5 }} size="small"
+              label="Species"
+              onChange={(event) => {
+                setSpecies(event.target.value);
+              }}
+            />
+            <TextField sx={{ m: 0.5 }} size="small"
+              label="Genus"
+              onChange={(event) => {
+                setGenus(event.target.value);
+              }}
+            />
+            <Button sx={{ m: 0.5 }} variant="outlined" onClick={createAnimal}>Add New Animal</Button>
             {animals.map((animal) => {
               return (
                 <div>
@@ -165,7 +167,20 @@ function App() {
               )
             })}
           </TabPanel>
-          <TabPanel value="2">
+          <TabPanel value="flowers">
+            <TextField sx={{ m: 0.5 }} size="small"
+              label="Species"
+              onChange={(event) => {
+                setSpecies(event.target.value);
+              }}
+            />
+            <TextField sx={{ m: 0.5 }} size="small"
+              label="Genus"
+              onChange={(event) => {
+                setGenus(event.target.value);
+              }}
+            />
+            <Button sx={{ m: 0.5 }} variant="outlined" onClick={createAnimal}>Add New Flower</Button>
             {flowers.map((flower) => {
               return (
                 <div>
@@ -195,7 +210,20 @@ function App() {
               )
             })}
           </TabPanel>
-          <TabPanel value="3">
+          <TabPanel value="trees">
+            <TextField sx={{ m: 0.5 }} size="small"
+              label="Species"
+              onChange={(event) => {
+                setSpecies(event.target.value);
+              }}
+            />
+            <TextField sx={{ m: 0.5 }} size="small"
+              label="Genus"
+              onChange={(event) => {
+                setGenus(event.target.value);
+              }}
+            />
+            <Button sx={{ m: 0.5 }} variant="outlined" onClick={createAnimal}>Add New Tree</Button>
             {trees.map((tree) => {
               return (
                 <div>
