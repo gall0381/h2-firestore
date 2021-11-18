@@ -2,12 +2,6 @@
   text-align: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-Header {
   padding: 1rem;
   display: flex;
@@ -26,7 +20,6 @@
 }
 
 .App-Link {
-  width: 100px;
   float: right;
   text-decoration: none;
 }

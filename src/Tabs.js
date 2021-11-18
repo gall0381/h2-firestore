@@ -63,12 +63,6 @@ export default function BasicTabs() {
                 List of cats:
 
                 <Card sx={{ maxWidth: 300 }}>
-                    <CardMedia
-                        component="img"
-                        alt="kitten"
-                        height="140"
-                        image="http://placekitten.com/200/300"
-                    />
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
                             Kitten
