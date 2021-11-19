@@ -116,14 +116,15 @@ function App() {
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <TabList onChange={handleChange} >
+              <Tab label="Categories:" disabled />
               <Tab label="Animals" value="animals" />
               <Tab label="Flowers" value="flowers" />
               <Tab label="Trees" value="trees" />
             </TabList>
           </Box>
           <div className="Instructions">
-            <p>You can add, update or delete from any category. To update, click in the text field of the animal, flower, or tree you wish to update. Then click the update button.</p>
-            <p>Please note you will need to refresh the page to observe any changes as onSnapshot is not implemented.</p>
+            <p>In this app, you can add, update or delete from any category. To update, click in the text field of the animal, flower, or tree you wish to update. Then click the update button.</p>
+            <p>Please note, you will need to refresh the page to observe any changes as onSnapshot is not implemented. Apologies for the inconvenience.</p>
             <p>Click on any of the above tabs to begin.</p>
           </div>
           <TabPanel value="animals">
