@@ -1,7 +1,7 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
 import { db } from "./firebaseConfig";
-import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "firebase/firestore";
+import { collection, getDocs, onSnapshot, addDoc, updateDoc, deleteDoc, doc } from "firebase/firestore";
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -18,6 +18,8 @@ function App() {
 
   const [newSpecies, setSpecies] = useState("")
   const [newGenus, setGenus] = useState("")
+  const [updatedSpecies, setUpdatedSpecies] = useState("")
+  const [updatedGenus, setUpdatedGenus] = useState("")
   const [animals, setAnimals] = useState([]);
   const [flowers, setFlowers] = useState([]);
   const [trees, setTrees] = useState([]);
@@ -42,27 +44,25 @@ function App() {
     await addDoc(flowersColRef, { species: newSpecies, genus: newGenus })
   }
 
-  const createTrees = async () => {
+  const createTree = async () => {
     await addDoc(treesColRef, { species: newSpecies, genus: newGenus })
   }
 
   //update operations
   const updateAnimal = async (id, species, genus) => {
-    const animalDoc = doc(db, 'animals', id)
-    const newFields = { species: species, genus: genus }
-    await updateDoc(animalDoc, newFields)
+    const animalDoc = doc(db, "animals", id)
+    await updateDoc(animalDoc, { species: updatedSpecies, genus: updatedGenus })
   }
+
 
   const updateFlower = async (id, species, genus) => {
     const flowerDoc = doc(db, 'flowers', id)
-    const newFields = { species: species, genus: genus }
-    await updateDoc(flowerDoc, newFields)
+    await updateDoc(flowerDoc, { species: updatedSpecies, genus: updatedGenus })
   }
 
   const updateTree = async (id, species, genus) => {
     const treeDoc = doc(db, 'trees', id)
-    const newFields = { species: species, genus: genus }
-    await updateDoc(treeDoc, newFields)
+    await updateDoc(treeDoc, { species: updatedSpecies, genus: updatedGenus })
   }
 
   //delete operations
@@ -122,7 +122,9 @@ function App() {
             </TabList>
           </Box>
           <div className="Instructions">
-            <p>You can add, update or delete from any category. Click on any tab to begin.</p>
+            <p>You can add, update or delete from any category. To update, click in the text field of the animal, flower, or tree you wish to update. Then click the update button.</p>
+            <p>Please note you will need to refresh the page to observe any changes as onSnapshot is not implemented.</p>
+            <p>Click on any of the above tabs to begin.</p>
           </div>
           <TabPanel value="animals">
             <TextField sx={{ m: 0.5 }} size="small"
@@ -141,7 +143,7 @@ function App() {
             {animals.map((animal) => {
               return (
                 <div>
-                  <Card sx={{ maxWidth: 345, m: 2 }} variant="outlined">
+                  <Card sx={{ maxWidth: 600, m: 2 }} variant="outlined">
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="div">
                         Species: {animal.species}
@@ -151,12 +153,25 @@ function App() {
                       </Typography>
                     </CardContent>
                     <CardActions>
+                      <TextField sx={{ m: 0.5 }} size="small"
+                        label="Species"
+                        onChange={(event) => {
+                          setUpdatedSpecies(event.target.value);
+                        }}
+                      />
+                      <TextField sx={{ m: 0.5 }} size="small"
+                        label="Genus"
+                        onChange={(event) => {
+                          setUpdatedGenus(event.target.value);
+                        }}
+                      />
                       <Button variant="outlined"
                         onClick={() =>
-                          updateAnimal(animal.id, animal.species, animal.genus)}>
+                          updateAnimal(animal.id, animal.species, animal.genus)}
+                      >
                         Update Animal
                       </Button>
-                      <Button variant="outlined"
+                      <Button variant="outlined" color="error"
                         onClick={() =>
                           deleteAnimal(animal.id)}>
                         Delete Animal
@@ -180,11 +195,11 @@ function App() {
                 setGenus(event.target.value);
               }}
             />
-            <Button sx={{ m: 0.5 }} variant="outlined" onClick={createAnimal}>Add New Flower</Button>
+            <Button sx={{ m: 0.5 }} variant="outlined" onClick={createFlower}>Add New Flower</Button>
             {flowers.map((flower) => {
               return (
                 <div>
-                  <Card sx={{ maxWidth: 345, m: 2 }} variant="outlined">
+                  <Card sx={{ maxWidth: 600, m: 2 }} variant="outlined">
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="div">
                         Species: {flower.species}
@@ -194,12 +209,24 @@ function App() {
                       </Typography>
                     </CardContent>
                     <CardActions>
+                      <TextField sx={{ m: 0.5 }} size="small"
+                        label="Species"
+                        onChange={(event) => {
+                          setUpdatedSpecies(event.target.value);
+                        }}
+                      />
+                      <TextField sx={{ m: 0.5 }} size="small"
+                        label="Genus"
+                        onChange={(event) => {
+                          setUpdatedGenus(event.target.value);
+                        }}
+                      />
                       <Button variant="outlined"
                         onClick={() =>
                           updateFlower(flower.id, flower.species, flower.genus)}>
                         Update Flower
                       </Button>
-                      <Button variant="outlined"
+                      <Button variant="outlined" color="error"
                         onClick={() =>
                           deleteFlower(flower.id)}>
                         Delete Flower
@@ -223,11 +250,11 @@ function App() {
                 setGenus(event.target.value);
               }}
             />
-            <Button sx={{ m: 0.5 }} variant="outlined" onClick={createAnimal}>Add New Tree</Button>
+            <Button sx={{ m: 0.5 }} variant="outlined" onClick={createTree}>Add New Tree</Button>
             {trees.map((tree) => {
               return (
                 <div>
-                  <Card sx={{ maxWidth: 345, m: 2 }} variant="outlined">
+                  <Card sx={{ maxWidth: 600, m: 2 }} variant="outlined">
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="div">
                         Species: {tree.species}
@@ -237,12 +264,24 @@ function App() {
                       </Typography>
                     </CardContent>
                     <CardActions>
+                      <TextField sx={{ m: 0.5 }} size="small"
+                        label="Species"
+                        onChange={(event) => {
+                          setUpdatedSpecies(event.target.value);
+                        }}
+                      />
+                      <TextField sx={{ m: 0.5 }} size="small"
+                        label="Genus"
+                        onChange={(event) => {
+                          setUpdatedGenus(event.target.value);
+                        }}
+                      />
                       <Button variant="outlined"
                         onClick={() =>
                           updateTree(tree.id, tree.species, tree.genus)}>
                         Update Tree
                       </Button>
-                      <Button variant="outlined"
+                      <Button variant="outlined" color="error"
                         onClick={() =>
                           deleteTree(tree.id)}>
                         Delete Tree
